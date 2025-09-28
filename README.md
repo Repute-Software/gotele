@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # gotele
 
 Lightweight, pragmatic Go client for the Telegram Bot API with first-class context support, simple file uploads, and ergonomic helpers for webhooks and interactive features.
@@ -25,6 +26,22 @@ import gotele "github.com/repute-software/gotele/telegram"
 ```
 
 ## Quickstart
+=======
+# Gotele - Telegram Bot API Client for Go
+
+A comprehensive, production-ready Telegram Bot API client library for Go with enterprise-grade features.
+
+## Features
+
+- ✅ **Enhanced Error Handling** - Comprehensive error types with retry logic support
+- ✅ **Context Support** - Full context support for cancellation and timeouts
+- ✅ **Comprehensive Type System** - Complete Telegram Bot API types
+- ✅ **File Upload & Media** - Support for all media types with validation
+- ✅ **Webhook Support** - Real-time message processing with security
+- ✅ **Production Ready** - Extensive testing and error handling
+
+## Quick Start
+>>>>>>> af0c0f5 (Made some changes.)
 
 ```go
 package main
@@ -35,14 +52,24 @@ import (
 )
 
 func main() {
+<<<<<<< HEAD
     token := os.Getenv("BOT_DEV_TOKEN") // or load from config
     bot := gotele.NewBot(token)
     if err := bot.SendMessage(123456789, "Hello from gotele!"); err != nil {
+=======
+    // Create bot
+    bot := gotele.NewBot("your_bot_token")
+    
+    // Send a message
+    err := bot.SendMessage(chatID, "Hello, World!")
+    if err != nil {
+>>>>>>> af0c0f5 (Made some changes.)
         log.Fatal(err)
     }
 }
 ```
 
+<<<<<<< HEAD
 More examples are available under `examples/` and in the docs below.
 
 ## Documentation
@@ -85,3 +112,29 @@ See `examples/` for runnable programs showing contexts, advanced message types, 
 
 This project is licensed under the terms of the `LICENSE` file.
 
+=======
+## Installation
+
+```bash
+go get github.com/repute-software/gotele/telegram
+```
+
+## Examples
+
+See the [examples directory](./examples/) for comprehensive usage examples:
+
+- [Context Support](./examples/context/) - Request cancellation and timeouts
+- [Advanced Types](./examples/advanced_types/) - Interactive keyboards and formatting
+- [File Upload](./examples/file_upload/) - Media handling and file operations
+- [Webhook Support](./examples/webhook/) - Real-time message processing
+
+## Documentation
+
+- [API Reference](https://pkg.go.dev/github.com/repute-software/gotele/telegram)
+- [Examples](./examples/README.md)
+- [Telegram Bot API](https://core.telegram.org/bots/api)
+
+## License
+
+MIT License - see [LICENSE](./LICENSE) file for details.
+>>>>>>> af0c0f5 (Made some changes.)
