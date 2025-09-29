@@ -396,3 +396,192 @@ func (b *Bot) AnswerInlineQueryWithContext(ctx context.Context, options *AnswerI
 	_, err := b.makeRequest(ctx, "POST", "/answerInlineQuery", reqBody)
 	return err
 }
+
+// EditMessageCaptionOptions represents options for editing message caption
+type EditMessageCaptionOptions struct {
+	ChatID          int64
+	MessageID       int
+	InlineMessageID string
+	Caption         string
+	ParseMode       string
+	CaptionEntities []MessageEntity
+	ReplyMarkup     interface{}
+}
+
+// EditMessageCaption edits the caption of a message
+func (b *Bot) EditMessageCaption(options *EditMessageCaptionOptions) error {
+	ctx, cancel := context.WithTimeout(context.Background(), b.Timeout)
+	defer cancel()
+	return b.EditMessageCaptionWithContext(ctx, options)
+}
+
+// EditMessageCaptionWithContext edits the caption of a message with context support
+func (b *Bot) EditMessageCaptionWithContext(ctx context.Context, options *EditMessageCaptionOptions) error {
+	reqBody := map[string]interface{}{}
+
+	if options.ChatID != 0 {
+		reqBody["chat_id"] = options.ChatID
+	}
+	if options.MessageID != 0 {
+		reqBody["message_id"] = options.MessageID
+	}
+	if options.InlineMessageID != "" {
+		reqBody["inline_message_id"] = options.InlineMessageID
+	}
+	if options.Caption != "" {
+		reqBody["caption"] = options.Caption
+	}
+	if options.ParseMode != "" {
+		reqBody["parse_mode"] = options.ParseMode
+	}
+	if len(options.CaptionEntities) > 0 {
+		reqBody["caption_entities"] = options.CaptionEntities
+	}
+	if options.ReplyMarkup != nil {
+		markupJSON, err := json.Marshal(options.ReplyMarkup)
+		if err != nil {
+			return fmt.Errorf("failed to marshal reply markup: %w", err)
+		}
+		reqBody["reply_markup"] = string(markupJSON)
+	}
+
+	_, err := b.makeRequest(ctx, "POST", "/editMessageCaption", reqBody)
+	return err
+}
+
+// EditMessageReplyMarkupOptions represents options for editing message reply markup
+type EditMessageReplyMarkupOptions struct {
+	ChatID          int64
+	MessageID       int
+	InlineMessageID string
+	ReplyMarkup     interface{}
+}
+
+// EditMessageReplyMarkup edits the reply markup of a message
+func (b *Bot) EditMessageReplyMarkup(options *EditMessageReplyMarkupOptions) error {
+	ctx, cancel := context.WithTimeout(context.Background(), b.Timeout)
+	defer cancel()
+	return b.EditMessageReplyMarkupWithContext(ctx, options)
+}
+
+// EditMessageReplyMarkupWithContext edits the reply markup of a message with context support
+func (b *Bot) EditMessageReplyMarkupWithContext(ctx context.Context, options *EditMessageReplyMarkupOptions) error {
+	reqBody := map[string]interface{}{}
+
+	if options.ChatID != 0 {
+		reqBody["chat_id"] = options.ChatID
+	}
+	if options.MessageID != 0 {
+		reqBody["message_id"] = options.MessageID
+	}
+	if options.InlineMessageID != "" {
+		reqBody["inline_message_id"] = options.InlineMessageID
+	}
+	if options.ReplyMarkup != nil {
+		markupJSON, err := json.Marshal(options.ReplyMarkup)
+		if err != nil {
+			return fmt.Errorf("failed to marshal reply markup: %w", err)
+		}
+		reqBody["reply_markup"] = string(markupJSON)
+	}
+
+	_, err := b.makeRequest(ctx, "POST", "/editMessageReplyMarkup", reqBody)
+	return err
+}
+
+// EditMessageMediaOptions represents options for editing message media
+type EditMessageMediaOptions struct {
+	ChatID          int64
+	MessageID       int
+	InlineMessageID string
+	Media           interface{}
+	ReplyMarkup     interface{}
+}
+
+// EditMessageMedia edits the media of a message
+func (b *Bot) EditMessageMedia(options *EditMessageMediaOptions) error {
+	ctx, cancel := context.WithTimeout(context.Background(), b.Timeout)
+	defer cancel()
+	return b.EditMessageMediaWithContext(ctx, options)
+}
+
+// EditMessageMediaWithContext edits the media of a message with context support
+func (b *Bot) EditMessageMediaWithContext(ctx context.Context, options *EditMessageMediaOptions) error {
+	reqBody := map[string]interface{}{}
+
+	if options.ChatID != 0 {
+		reqBody["chat_id"] = options.ChatID
+	}
+	if options.MessageID != 0 {
+		reqBody["message_id"] = options.MessageID
+	}
+	if options.InlineMessageID != "" {
+		reqBody["inline_message_id"] = options.InlineMessageID
+	}
+	if options.Media != nil {
+		mediaJSON, err := json.Marshal(options.Media)
+		if err != nil {
+			return fmt.Errorf("failed to marshal media: %w", err)
+		}
+		reqBody["media"] = string(mediaJSON)
+	}
+	if options.ReplyMarkup != nil {
+		markupJSON, err := json.Marshal(options.ReplyMarkup)
+		if err != nil {
+			return fmt.Errorf("failed to marshal reply markup: %w", err)
+		}
+		reqBody["reply_markup"] = string(markupJSON)
+	}
+
+	_, err := b.makeRequest(ctx, "POST", "/editMessageMedia", reqBody)
+	return err
+}
+
+// NewReplyKeyboard creates a new reply keyboard with the given buttons
+func NewReplyKeyboard(buttons [][]KeyboardButton) *ReplyKeyboardMarkup {
+	return &ReplyKeyboardMarkup{
+		Keyboard:        buttons,
+		ResizeKeyboard:  true,
+		OneTimeKeyboard: false,
+		Selective:       false,
+	}
+}
+
+// NewReplyKeyboardOneTime creates a new one-time reply keyboard
+func NewReplyKeyboardOneTime(buttons [][]KeyboardButton) *ReplyKeyboardMarkup {
+	return &ReplyKeyboardMarkup{
+		Keyboard:        buttons,
+		ResizeKeyboard:  true,
+		OneTimeKeyboard: true,
+		Selective:       false,
+	}
+}
+
+// NewKeyboardButton creates a new keyboard button
+func NewKeyboardButton(text string) KeyboardButton {
+	return KeyboardButton{
+		Text: text,
+	}
+}
+
+// NewKeyboardButtonWithRequest creates a new keyboard button with request
+func NewKeyboardButtonWithRequest(text string, requestType string) KeyboardButton {
+	return KeyboardButton{
+		Text:            text,
+		RequestContact:  requestType == "contact",
+		RequestLocation: requestType == "location",
+		RequestPoll: &KeyboardButtonPollType{
+			Type: requestType,
+		},
+	}
+}
+
+// NewKeyboardRow creates a row of keyboard buttons
+func NewKeyboardRow(buttons ...KeyboardButton) []KeyboardButton {
+	return buttons
+}
+
+// NewKeyboardGrid creates a grid of keyboard buttons
+func NewKeyboardGrid(rows ...[]KeyboardButton) [][]KeyboardButton {
+	return rows
+}

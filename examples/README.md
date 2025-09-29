@@ -76,6 +76,22 @@ Shows webhook setup and real-time message processing.
 go run ./examples/webhook
 ```
 
+### 5. Edit Messages & Keyboards (`edit_and_keyboard/`)
+Demonstrates message editing and reply keyboard functionality.
+
+**Features:**
+- Edit message text
+- Edit message captions  
+- Edit reply markup
+- Reply keyboard creation
+- Advanced keyboard buttons
+- One-time keyboards
+
+**Run:**
+```bash
+go run ./examples/edit_and_keyboard
+```
+
 ## Configuration
 
 Most examples require a valid chat ID to send messages to. You can:
